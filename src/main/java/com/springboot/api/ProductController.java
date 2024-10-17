@@ -13,9 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+
 public class ProductController {
     @Autowired
    private ProductServiceImpl productService;
+    //this is add api
     @PostMapping("/addproduct")
     public ResponseEntity<Product>  addProduct(@RequestBody Product product) {
         Product createdProduct = productService.addProduct(product);
