@@ -11,4 +11,9 @@ public interface IProductService {
         public Product getProductById(int id);
         public List<Product> getAllProduct();
         public void deleteProduct(int id);
+        List<Product> getProductByName(String name);
+        List<Product> findByPriceBetween(double minPrice, double maxPrice);
+        List<Product> getProductByNameAndPrice(String name, Double maxPrice);
+        List<Product> getProductByNameOrQuantity(String name, int quantity);
+        List<Product> getProductsByIds(List<Integer> id);
 }
