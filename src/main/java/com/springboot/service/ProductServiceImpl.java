@@ -3,9 +3,14 @@ package com.springboot.service;
 import com.springboot.entity.Product;
 import com.springboot.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements IProductService{
@@ -64,12 +69,21 @@ public class ProductServiceImpl implements IProductService{
     @Override
     public List<Product> getProductByNameOrQuantity(String name, int quantity) {
         return productRepository.getProductByNameOrQuantity(name,quantity);
-
     }
 //this service is use for get product by id in desc order
     @Override
     public List<Product> getProductsByIds(List<Integer> ids) {
         return productRepository.findByIdInOrderByIdDesc(ids);
+    }
+
+    public Map<String, Object> getProductPage(int page, int size) {
+        Page<Product> allProducts = productRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"id")));
+        Map<String,Object> response = new HashMap<>();
+        response.put("data", allProducts);
+        response.put("totalPage", allProducts.getTotalPages());
+        response.put("currentSize", allProducts.getNumber());
+        response.put("totalRecords", allProducts.getSize());
+        return response;
     }
 //this service is use for deleting the product
     @Override

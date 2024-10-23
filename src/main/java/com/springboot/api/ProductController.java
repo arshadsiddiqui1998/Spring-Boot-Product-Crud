@@ -4,11 +4,13 @@ package com.springboot.api;
 import com.springboot.entity.Product;
 import com.springboot.service.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
@@ -66,7 +68,10 @@ public ResponseEntity<List<Product>> getProductByNameOrQuantity(@RequestParam St
 public ResponseEntity <List<Product>> getProductsById(@RequestParam List<Integer> id) {
         return new ResponseEntity<>(productService.getProductsByIds(id), HttpStatus.OK);
 }
-
+@GetMapping("/Pagination")
+public Map<String, Object> getProduct(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size) {
+        return productService.getProductPage(page, size);
+}
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
